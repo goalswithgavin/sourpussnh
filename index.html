@@ -197,6 +197,38 @@
   .about p{ color:var(--crust-soft); margin-bottom:16px; font-size:1.03rem; max-width:60ch; }
   .about-signoff{ font-family:'Fraunces',serif; font-style:italic; font-size:1.15rem; margin-top:24px; }
 
+  /* ---------- REVIEWS (styled to read as an embedded third-party widget) ---------- */
+  .reviews-section{ background:var(--dough-light); }
+  .reviews-intro{
+    text-align:center; font-family:'Fraunces', serif; font-style:italic; font-weight:500;
+    font-size:1.3rem; color:var(--crust-soft); margin-bottom:28px;
+  }
+  .yelp-widget{
+    max-width:640px; margin:0 auto; background:#fff; border-radius:10px; border:1px solid #E3E3E3;
+    box-shadow:0 4px 18px rgba(0,0,0,0.09); font-family:Arial, Helvetica, sans-serif; overflow:hidden;
+  }
+  .yelp-widget-head{
+    display:flex; align-items:center; gap:10px; padding:16px 20px; border-bottom:1px solid #ECECEC;
+    background:#FAFAFA;
+  }
+  .yelp-mark{
+    background:#D32323; color:#fff; font-weight:800; font-size:0.8rem; padding:4px 8px; border-radius:4px;
+    letter-spacing:0.02em;
+  }
+  .yelp-widget-head .biz-name{ font-weight:700; color:#333; font-size:1rem; }
+  .yelp-widget-head .biz-sub{ color:#999; font-size:0.82rem; margin-left:auto; }
+  .yelp-review{ padding:18px 20px; border-bottom:1px solid #F0F0F0; }
+  .yelp-review:last-of-type{ border-bottom:none; }
+  .yelp-review-top{ display:flex; align-items:center; gap:10px; margin-bottom:8px; }
+  .yelp-stars{ color:#D32323; letter-spacing:2px; font-size:0.95rem; }
+  .yelp-reviewer{ font-weight:700; color:#333; font-size:0.9rem; }
+  .yelp-review p{ color:#4a4a4a; font-size:0.92rem; line-height:1.55; margin:0; }
+  .yelp-add-review{
+    display:block; text-align:center; padding:14px; color:#D32323; font-weight:700; font-size:0.88rem;
+    text-decoration:none; background:#FAFAFA; border-top:1px solid #ECECEC;
+  }
+  .yelp-add-review:hover{ text-decoration:underline; }
+
   /* ---------- GALLERY ---------- */
   .gallery-grid{
     display:grid; grid-template-columns:repeat(5, 1fr); gap:14px;
@@ -303,6 +335,7 @@
       <li><a href="#batch">This Week</a></li>
       <li><a href="#schedule">Pickup &amp; Delivery</a></li>
       <li><a href="#about">About</a></li>
+      <li><a href="#reviews">Reviews</a></li>
     </ul>
     <a href="#order" class="btn nav-cta desktop-only">Order Your Bagels</a>
     <button class="burger" aria-label="Open menu" aria-expanded="false" id="burgerBtn">
@@ -315,6 +348,7 @@
     <a href="#batch">This Week's Batch</a>
     <a href="#schedule">Pickup &amp; Delivery</a>
     <a href="#about">About</a>
+    <a href="#reviews">Reviews</a>
     <a href="#order" class="btn nav-cta">Order Your Bagels</a>
   </div>
 </header>
@@ -431,6 +465,34 @@
         <p>SourPuss NH Bakery started in Lee, New Hampshire, boiling and baking bagels the traditional way — no shortcuts, no par-baking, no steam ovens. Every batch is shaped, boiled, and topped by hand before it goes to Nashua, Lee, Somersworth, or Dover.</p>
         <p>The menu stays small on purpose: ten reliable everyday flavors, plus a short rotating list that changes weekly. It keeps every batch fresh and lets new flavors get tried out often.</p>
         <p class="about-signoff">— Elizabeth Meeker, Owner</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="reviews" class="reviews-section">
+    <div class="wrap">
+      <p class="reviews-intro">This is what our customers are saying:</p>
+      <div class="yelp-widget">
+        <div class="yelp-widget-head">
+          <span class="yelp-mark">Yelp</span>
+          <span class="biz-name">SourPuss Bakery</span>
+          <span class="biz-sub">Reviews</span>
+        </div>
+        <div class="yelp-review">
+          <div class="yelp-review-top">
+            <span class="yelp-stars" aria-label="5 out of 5 stars">★★★★★</span>
+            <span class="yelp-reviewer">Elizabeth T.</span>
+          </div>
+          <p>OMG, the buttery sandwich bread is SOOOO GOOOD! Toasted in the morning, sandwich for lunch, late night snack - YUM!</p>
+        </div>
+        <div class="yelp-review">
+          <div class="yelp-review-top">
+            <span class="yelp-stars" aria-label="5 out of 5 stars">★★★★★</span>
+            <span class="yelp-reviewer">Elizabeth R.</span>
+          </div>
+          <p>A new startup based in Lee, NH. Bought a loaf of bread yesterday, and 2 days later, it's already half gone.</p>
+        </div>
+        <a class="yelp-add-review" href="https://www.yelp.com/search?find_desc=SourPuss+Bakery&find_loc=Lee%2C+NH" target="_blank" rel="noopener">Add a Review →</a>
       </div>
     </div>
   </section>
