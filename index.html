@@ -1,0 +1,920 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SourPuss NH Bakery — Sourdough Bagels, Made to Order</title>
+<meta name="description" content="Small-batch sourdough bagels, hand-rolled in a licensed home kitchen in Lee, NH. Pick your flavors, pick your day, we'll have them ready. Just taste them.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,600;0,9..144,700;0,9..144,900;1,9..144,500;1,9..144,600&family=Karla:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper: #ECDFC0;
+    --paper-light: #F7EFDA;
+    --cream: #FBF6EA;
+    --ink: #241A14;
+    --ink-soft: #4A3B30;
+    --brick: #A8402A;
+    --brick-dark: #832E1C;
+    --pickle: #5C6B35;
+    --pickle-dark: #454F27;
+    --mustard: #D9A62E;
+    --line: rgba(36,26,20,0.16);
+    --radius: 4px;
+    --shadow: 0 10px 30px rgba(36,26,20,0.14);
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Karla',sans-serif;
+    font-size:17px;
+    line-height:1.55;
+    background-image:
+      radial-gradient(circle at 1px 1px, rgba(36,26,20,0.06) 1px, transparent 0);
+    background-size: 22px 22px;
+  }
+  img,svg{display:block;max-width:100%;}
+  a{color:inherit;}
+  h1,h2,h3,h4{
+    font-family:'Fraunces',serif;
+    font-weight:700;
+    margin:0 0 .4em;
+    line-height:1.05;
+    letter-spacing:-0.01em;
+  }
+  .eyebrow{
+    font-family:'Space Mono',monospace;
+    text-transform:uppercase;
+    letter-spacing:.14em;
+    font-size:.72rem;
+    font-weight:700;
+    color:var(--brick);
+    display:inline-flex;
+    align-items:center;
+    gap:.5em;
+  }
+  .eyebrow::before{
+    content:"";
+    width:18px;height:1px;background:var(--brick);
+    display:inline-block;
+  }
+  .wrap{max-width:1120px;margin:0 auto;padding:0 28px;}
+  section{padding:96px 0;position:relative;}
+  @media(max-width:640px){ section{padding:64px 0;} }
+
+  /* ---------- Bagel icon sprite ---------- */
+  .bagel-icon{width:1em;height:1em;}
+
+  /* ---------- Header ---------- */
+  header{
+    position:sticky;top:0;z-index:50;
+    background:rgba(236,223,192,0.92);
+    backdrop-filter:blur(6px);
+    border-bottom:1px solid var(--line);
+  }
+  .nav-inner{
+    max-width:1120px;margin:0 auto;padding:16px 28px;
+    display:flex;align-items:center;justify-content:space-between;gap:24px;
+  }
+  .brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--ink);}
+  .brand svg{width:34px;height:34px;flex:none;}
+  .brand-word{font-family:'Fraunces',serif;font-weight:900;font-size:1.35rem;letter-spacing:-0.01em;}
+  .brand-word span{color:var(--brick);}
+  nav.links{display:flex;gap:28px;align-items:center;}
+  nav.links a{
+    font-family:'Space Mono',monospace;font-size:.78rem;text-transform:uppercase;
+    letter-spacing:.08em;text-decoration:none;color:var(--ink-soft);
+    padding-bottom:3px;border-bottom:2px solid transparent;
+    transition:border-color .15s ease, color .15s ease;
+  }
+  nav.links a:hover{color:var(--brick);border-color:var(--brick);}
+  .btn{
+    display:inline-flex;align-items:center;gap:.5em;
+    font-family:'Space Mono',monospace;font-size:.78rem;text-transform:uppercase;letter-spacing:.08em;
+    font-weight:700;padding:12px 22px;border-radius:3px;text-decoration:none;
+    border:1.5px solid var(--ink);cursor:pointer;
+    transition:transform .15s ease, box-shadow .15s ease;
+  }
+  .btn:hover{transform:translateY(-2px);}
+  .btn-primary{background:var(--brick);border-color:var(--brick);color:var(--cream);box-shadow:0 4px 0 var(--brick-dark);}
+  .btn-primary:hover{box-shadow:0 6px 0 var(--brick-dark);}
+  .btn-primary:active{transform:translateY(1px);box-shadow:0 2px 0 var(--brick-dark);}
+  .btn-ghost{background:transparent;color:var(--ink);}
+  .btn-ghost:hover{background:var(--ink);color:var(--paper-light);}
+  .nav-cta{display:none;}
+  @media(min-width:860px){ .nav-cta{display:inline-flex;} }
+  .menu-toggle{display:none;background:none;border:1.5px solid var(--ink);border-radius:3px;padding:8px 10px;font-family:'Space Mono',monospace;}
+  @media(max-width:859px){
+    nav.links{display:none;}
+    .menu-toggle{display:inline-flex;}
+  }
+
+  /* ---------- Hero ---------- */
+  .hero{padding-top:76px;padding-bottom:70px;overflow:hidden;}
+  .hero-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:56px;align-items:center;}
+  @media(max-width:900px){ .hero-grid{grid-template-columns:1fr;} }
+  .hero h1{
+    font-size:clamp(3rem,7vw,5.4rem);
+    font-weight:900;
+    margin-bottom:.15em;
+  }
+  .hero h1 em{
+    font-style:italic;font-weight:500;color:var(--brick);
+  }
+  .taste-line{
+    font-family:'Fraunces',serif;font-style:italic;font-weight:600;
+    font-size:1.7rem;color:var(--ink);
+    margin:.3em 0 .5em;
+    position:relative;display:inline-block;
+  }
+  .taste-line::after{
+    content:"";position:absolute;left:0;right:0;bottom:-2px;height:8px;
+    background:var(--mustard);opacity:.55;z-index:-1;
+  }
+  .hero p.lede{max-width:46ch;color:var(--ink-soft);font-size:1.08rem;margin-bottom:1.9em;}
+  .hero-cta-row{display:flex;gap:16px;flex-wrap:wrap;}
+
+  .hero-visual{position:relative;display:flex;justify-content:center;}
+  .hero-photo{
+    width:100%;max-width:440px;border-radius:6px;overflow:hidden;
+    box-shadow:var(--shadow);border:6px solid var(--cream);
+    transform:rotate(-1.5deg);
+  }
+  .hero-photo img{width:100%;height:380px;object-fit:cover;display:block;}
+  .ticket{
+    background:var(--cream);
+    border-radius:2px;
+    box-shadow:var(--shadow);
+    padding:22px 20px 18px;
+    width:78%;max-width:270px;
+    position:absolute;
+    right:-18px;bottom:-30px;
+    transform:rotate(4deg);
+    border:1px solid var(--line);
+  }
+  @media(max-width:900px){ .ticket{right:8px;bottom:-24px;} }
+  .ticket::before,.ticket::after{
+    content:"";position:absolute;width:22px;height:22px;background:var(--paper);
+    border-radius:50%;top:50%;transform:translateY(-50%);
+  }
+  .ticket::before{left:-11px;}
+  .ticket::after{right:-11px;}
+  .ticket-head{display:flex;justify-content:space-between;align-items:flex-start;border-bottom:1.5px dashed var(--line);padding-bottom:14px;margin-bottom:14px;}
+  .ticket-head .num{font-family:'Space Mono',monospace;font-size:.75rem;color:var(--ink-soft);}
+  .ticket-head .stamp{
+    font-family:'Space Mono',monospace;font-weight:700;font-size:.68rem;
+    color:var(--pickle);border:2px solid var(--pickle);border-radius:4px;
+    padding:3px 8px;transform:rotate(-8deg);letter-spacing:.06em;
+  }
+  .ticket-row{display:flex;justify-content:space-between;font-family:'Space Mono',monospace;font-size:.82rem;padding:6px 0;border-bottom:1px dotted var(--line);}
+  .ticket-row:last-of-type{border-bottom:none;}
+  .ticket-foot{margin-top:16px;text-align:center;}
+  .ticket-foot .big{font-family:'Fraunces',serif;font-weight:700;font-style:italic;color:var(--brick);font-size:1.05rem;}
+
+  /* ---------- Trust strip ---------- */
+  .trust{background:var(--ink);color:var(--paper-light);padding:34px 0;}
+  .trust .wrap{display:flex;flex-wrap:wrap;gap:28px;justify-content:space-between;}
+  .trust-item{display:flex;align-items:center;gap:12px;font-family:'Space Mono',monospace;font-size:.78rem;letter-spacing:.03em;text-transform:uppercase;flex:1 1 200px;}
+  .trust-item svg{width:22px;height:22px;flex:none;color:var(--mustard);}
+
+  /* ---------- Section heads ---------- */
+  .section-head{max-width:640px;margin-bottom:52px;}
+  .section-head h2{font-size:clamp(2.1rem,4vw,3rem);}
+  .section-head p{color:var(--ink-soft);font-size:1.05rem;}
+
+  /* ---------- Flavors ---------- */
+  .flavor-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:16px;}
+  .flavor-card{
+    background:var(--cream);border:1px solid var(--line);border-radius:3px;
+    padding:20px;position:relative;overflow:hidden;
+    transition:transform .18s ease, box-shadow .18s ease;
+  }
+  .flavor-card:hover{transform:translateY(-4px);box-shadow:var(--shadow);}
+  .flavor-card .fnum{font-family:'Space Mono',monospace;font-size:.7rem;color:var(--ink-soft);opacity:.6;}
+  .flavor-card h3{font-size:1.25rem;margin:.25em 0 .2em;}
+  .flavor-card p{font-size:.88rem;color:var(--ink-soft);margin:0;}
+  .flavor-dots{position:absolute;top:14px;right:14px;width:34px;height:34px;border-radius:50%;opacity:.9;}
+  .flavor-card.has-photo{padding:0;}
+  .flavor-card.has-photo .fphoto{width:100%;height:150px;object-fit:cover;display:block;}
+  .flavor-card.has-photo .fbody{padding:16px 18px 18px;}
+  .flavor-card.has-photo .fnum{position:absolute;top:12px;left:12px;background:rgba(36,26,20,.65);color:var(--paper-light);padding:2px 8px;border-radius:2px;opacity:1;}
+
+  .specials-board{
+    margin-top:56px;background:var(--ink);color:var(--paper-light);
+    border-radius:6px;padding:38px 34px;
+    display:grid;grid-template-columns:1fr 1.4fr;gap:32px;align-items:center;
+  }
+  @media(max-width:780px){ .specials-board{grid-template-columns:1fr;} }
+  .specials-board h3{color:var(--mustard);font-size:1.6rem;font-style:italic;}
+  .specials-board p{color:rgba(251,246,234,.75);font-size:.95rem;}
+  .special-tags{display:flex;flex-wrap:wrap;gap:10px;}
+  .special-tags span{
+    font-family:'Space Mono',monospace;font-size:.75rem;letter-spacing:.03em;
+    border:1px solid rgba(251,246,234,.35);padding:7px 12px;border-radius:20px;
+    text-transform:capitalize;
+  }
+
+  /* ---------- Order builder ---------- */
+  .order-section{background:var(--paper-light);border-top:1px solid var(--line);border-bottom:1px solid var(--line);}
+  .order-grid{display:grid;grid-template-columns:1.3fr 1fr;gap:40px;align-items:flex-start;}
+  @media(max-width:920px){ .order-grid{grid-template-columns:1fr;} }
+
+  .step-label{font-family:'Space Mono',monospace;font-size:.78rem;text-transform:uppercase;letter-spacing:.08em;color:var(--brick);font-weight:700;margin-bottom:14px;display:block;}
+
+  .flavor-picker{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px;margin-bottom:34px;}
+  .pick-row{
+    background:var(--cream);border:1px solid var(--line);border-radius:3px;
+    padding:12px 14px;display:flex;align-items:center;justify-content:space-between;gap:10px;
+  }
+  .pick-row .pname{font-family:'Karla',sans-serif;font-weight:700;font-size:.94rem;}
+  .pick-row .pprice{display:block;font-family:'Space Mono',monospace;font-size:.72rem;color:var(--ink-soft);margin-top:2px;}
+  .qty{display:flex;align-items:center;gap:8px;}
+  .qty button{
+    width:28px;height:28px;border-radius:50%;border:1.5px solid var(--ink);background:var(--paper-light);
+    font-family:'Space Mono',monospace;font-weight:700;font-size:1rem;cursor:pointer;line-height:1;
+    display:flex;align-items:center;justify-content:center;
+  }
+  .qty button:hover{background:var(--ink);color:var(--paper-light);}
+  .qty output{font-family:'Space Mono',monospace;min-width:1.4em;text-align:center;font-weight:700;}
+
+  fieldset{border:none;padding:0;margin:0 0 34px;}
+  legend{padding:0;margin-bottom:14px;width:100%;}
+  .fulfill-options{display:grid;gap:10px;}
+  .fulfill-card{
+    display:flex;gap:14px;align-items:flex-start;background:var(--cream);
+    border:1.5px solid var(--line);border-radius:3px;padding:14px 16px;cursor:pointer;
+    transition:border-color .15s ease, background .15s ease;
+  }
+  .fulfill-card:hover{border-color:var(--brick);}
+  .fulfill-card input{margin-top:3px;accent-color:var(--brick);}
+  .fulfill-card .ftitle{font-weight:700;}
+  .fulfill-card .fmeta{font-family:'Space Mono',monospace;font-size:.75rem;color:var(--ink-soft);margin-top:2px;}
+  .fulfill-card:has(input:checked){border-color:var(--brick);background:#F3E6D3;}
+
+  .field{margin-bottom:16px;}
+  .field label{display:block;font-family:'Space Mono',monospace;font-size:.72rem;text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px;color:var(--ink-soft);}
+  .field input,.field textarea{
+    width:100%;font-family:'Karla',sans-serif;font-size:.98rem;padding:11px 12px;
+    border:1.5px solid var(--line);border-radius:3px;background:var(--cream);color:var(--ink);
+  }
+  .field input:focus,.field textarea:focus{outline:2px solid var(--brick);outline-offset:1px;}
+  .field textarea{resize:vertical;min-height:70px;}
+
+  /* order summary ticket */
+  .summary{
+    position:sticky;top:110px;
+    background:var(--ink);color:var(--paper-light);
+    border-radius:6px;padding:28px 26px;
+  }
+  .summary h3{font-family:'Fraunces',serif;font-style:italic;color:var(--mustard);font-size:1.5rem;margin-bottom:.1em;}
+  .summary .sub{font-family:'Space Mono',monospace;font-size:.72rem;color:rgba(251,246,234,.6);margin-bottom:18px;}
+  .summary-list{list-style:none;margin:0 0 16px;padding:0;font-family:'Space Mono',monospace;font-size:.85rem;}
+  .summary-list li{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px dotted rgba(251,246,234,.2);}
+  .summary-empty{color:rgba(251,246,234,.55);font-family:'Karla',sans-serif;font-size:.9rem;font-style:italic;}
+  .summary-total{display:flex;justify-content:space-between;font-family:'Space Mono',monospace;font-weight:700;font-size:1.05rem;padding-top:10px;border-top:1.5px solid rgba(251,246,234,.3);margin-bottom:18px;}
+  .ready-stamp{
+    border:2px solid var(--pickle-dark);background:rgba(92,107,53,.18);color:#B9CB86;
+    border-radius:4px;padding:12px 14px;font-family:'Space Mono',monospace;font-size:.8rem;
+    margin-bottom:20px;line-height:1.5;
+  }
+  .ready-stamp b{color:#D7E4AC;font-size:.95rem;}
+  .summary .btn-primary{width:100%;justify-content:center;margin-bottom:10px;}
+  .summary .btn-ghost-dark{
+    width:100%;justify-content:center;background:transparent;color:var(--paper-light);
+    border-color:rgba(251,246,234,.4);
+  }
+  .summary .btn-ghost-dark:hover{background:rgba(251,246,234,.12);}
+  .summary small{display:block;margin-top:14px;color:rgba(251,246,234,.5);font-size:.72rem;line-height:1.5;}
+
+  /* ---------- Schedule ---------- */
+  .schedule-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
+  @media(max-width:780px){ .schedule-grid{grid-template-columns:1fr;} }
+  .sched-card{background:var(--cream);border:1px solid var(--line);border-radius:4px;padding:26px 22px;position:relative;}
+  .sched-card .day{font-family:'Fraunces',serif;font-weight:700;font-style:italic;font-size:1.6rem;color:var(--brick);}
+  .sched-card .place{font-weight:700;margin:.3em 0;}
+  .sched-card p{font-size:.9rem;color:var(--ink-soft);margin:0;}
+
+  /* ---------- About ---------- */
+  .about-grid{display:grid;grid-template-columns:.9fr 1.1fr;gap:56px;align-items:center;}
+  @media(max-width:900px){ .about-grid{grid-template-columns:1fr;} }
+  .about-badge{
+    aspect-ratio:1;border-radius:50%;background:var(--brick);color:var(--cream);
+    display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;
+    max-width:280px;margin:0 auto;box-shadow:var(--shadow);
+  }
+  .about-badge svg{width:64px;height:64px;margin-bottom:10px;}
+  .about-badge span{font-family:'Space Mono',monospace;font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;padding:0 20px;}
+
+  /* ---------- Contact ---------- */
+  .contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:48px;}
+  @media(max-width:820px){ .contact-grid{grid-template-columns:1fr;} }
+  .contact-list{list-style:none;margin:0;padding:0;}
+  .contact-list li{display:flex;gap:14px;align-items:flex-start;padding:16px 0;border-bottom:1px solid var(--line);}
+  .contact-list svg{width:22px;height:22px;flex:none;color:var(--brick);margin-top:2px;}
+  .contact-list a{text-decoration:none;font-weight:700;}
+  .contact-list .clabel{font-family:'Space Mono',monospace;font-size:.7rem;text-transform:uppercase;letter-spacing:.08em;color:var(--ink-soft);display:block;margin-bottom:2px;}
+
+  /* ---------- Footer ---------- */
+  footer{background:var(--ink);color:rgba(251,246,234,.7);padding:50px 0 26px;}
+  footer .brand-word{color:var(--paper-light);}
+  footer .brand-word span{color:var(--mustard);}
+  .foot-grid{display:flex;justify-content:space-between;flex-wrap:wrap;gap:24px;margin-bottom:30px;}
+  .foot-links{display:flex;gap:22px;flex-wrap:wrap;font-family:'Space Mono',monospace;font-size:.78rem;text-transform:uppercase;letter-spacing:.06em;}
+  .foot-links a{text-decoration:none;color:rgba(251,246,234,.75);}
+  .foot-links a:hover{color:var(--mustard);}
+  .foot-bottom{border-top:1px solid rgba(251,246,234,.15);padding-top:20px;font-family:'Space Mono',monospace;font-size:.72rem;display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;}
+
+  .toast{
+    position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(20px);
+    background:var(--ink);color:var(--paper-light);padding:14px 22px;border-radius:4px;
+    font-family:'Space Mono',monospace;font-size:.82rem;box-shadow:var(--shadow);
+    opacity:0;pointer-events:none;transition:opacity .25s ease, transform .25s ease;z-index:100;
+  }
+  .toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+
+  /* ---------- Yelp reviews box ---------- */
+  .yelp-wrap{display:flex;justify-content:center;}
+  .yelp-box{
+    background:var(--cream);
+    border:1.5px solid #E3B3B3;
+    border-top:6px solid #D32323;
+    border-radius:6px;
+    max-width:560px;width:100%;
+    padding:26px 28px 22px;
+    box-shadow:var(--shadow);
+  }
+  .yelp-head{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;border-bottom:1px solid rgba(211,35,35,.2);padding-bottom:14px;margin-bottom:16px;}
+  .yelp-logo{
+    font-family:'Fraunces',serif;font-weight:900;font-style:italic;font-size:1.5rem;
+    color:#D32323;letter-spacing:-0.02em;
+  }
+  .yelp-biz{font-family:'Karla',sans-serif;font-weight:700;color:var(--ink);font-size:.95rem;}
+  .yelp-sub{font-family:'Space Mono',monospace;font-size:.7rem;text-transform:uppercase;letter-spacing:.08em;color:#D32323;margin-left:auto;}
+  .yelp-review{padding:14px 0;border-bottom:1px dashed rgba(211,35,35,.25);}
+  .yelp-review:last-of-type{border-bottom:none;padding-bottom:6px;}
+  .yelp-stars{color:#D32323;letter-spacing:2px;font-size:1rem;margin-bottom:4px;}
+  .yelp-reviewer{font-weight:700;font-size:.92rem;margin-bottom:4px;}
+  .yelp-review p{margin:0;font-size:.92rem;color:var(--ink-soft);}
+  .yelp-add{
+    display:inline-flex;align-items:center;gap:6px;margin-top:16px;
+    color:#D32323;font-weight:700;text-decoration:none;font-size:.9rem;
+  }
+  .yelp-add:hover{text-decoration:underline;}
+
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto;}
+    *{transition:none !important;animation:none !important;}
+  }
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute">
+  <symbol id="bagel" viewBox="0 0 64 64">
+    <circle cx="32" cy="32" r="27" fill="currentColor"/>
+    <circle cx="32" cy="32" r="10" fill="var(--paper-light)"/>
+  </symbol>
+</svg>
+
+<header>
+  <div class="nav-inner">
+    <a class="brand" href="#top">
+      <svg viewBox="0 0 64 64" class="bagel-icon" style="width:34px;height:34px;color:var(--brick);"><use href="#bagel"/></svg>
+      <span class="brand-word">SourPuss<span>.</span></span>
+    </a>
+    <nav class="links">
+      <a href="#menu">Menu</a>
+      <a href="#order">Order</a>
+      <a href="#schedule">Pickup &amp; Delivery</a>
+      <a href="#about">About</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <a class="btn btn-primary nav-cta" href="#order">Build Your Dozen</a>
+    <button class="menu-toggle" aria-label="Open menu" id="menuToggle">☰ Menu</button>
+  </div>
+  <nav class="links" id="mobileNav" style="display:none;flex-direction:column;gap:0;padding:0 28px 18px;">
+    <a href="#menu" style="padding:10px 0;">Menu</a>
+    <a href="#order" style="padding:10px 0;">Order</a>
+    <a href="#schedule" style="padding:10px 0;">Pickup &amp; Delivery</a>
+    <a href="#about" style="padding:10px 0;">About</a>
+    <a href="#contact" style="padding:10px 0;">Contact</a>
+  </nav>
+</header>
+
+<main id="top">
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="wrap hero-grid">
+      <div>
+        <span class="eyebrow">Licensed home bakery · Lee, NH</span>
+        <h1>Real sourdough<br>bagels, <em>no fluff.</em></h1>
+        <p class="taste-line">"Just taste them."</p>
+        <p class="lede">What started as a passion for baking in our home kitchen has grown into a weekly bagel route across Nashua, Lee, Somersworth, and Dover. Every batch is hand-rolled, kettle-boiled, and baked with the same quality and care we'd want for our own family — pick your flavors, pick your day, and we'll have a fresh dozen ready for you.</p>
+        <div class="hero-cta-row">
+          <a href="#order" class="btn btn-primary">Build Your Dozen</a>
+          <a href="#menu" class="btn btn-ghost">See the flavors</a>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <div class="hero-photo">
+          <img src="images/everything-bagels.jpg" alt="A fresh batch of hand-rolled everything bagels, coated in garlic, onion, poppy and sesame seeds">
+        </div>
+        <div class="ticket">
+          <div class="ticket-head">
+            <div>
+              <div class="num">ORDER #0079</div>
+              <div class="num">SOURPUSS NH BAKERY</div>
+            </div>
+            <div class="stamp">FRESH</div>
+          </div>
+          <div class="ticket-row"><span>6 × Everything</span><span>$12.00</span></div>
+          <div class="ticket-row"><span>3 × Za'atar</span><span>$6.00</span></div>
+          <div class="ticket-foot">
+            <div class="big">Ready Thursday · Lee pickup</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TRUST STRIP -->
+  <div class="trust">
+    <div class="wrap">
+      <div class="trust-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l2.5 6.5L21 9l-5 4.5 1.5 7L12 17l-5.5 3.5L8 13.5 3 9l6.5-.5z"/></svg> Licensed cottage food operation</div>
+      <div class="trust-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg> Made to order, ready in 2 days</div>
+      <div class="trust-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12l2-7h14l2 7M5 12v7h14v-7M9 19v-4h6v4"/></svg> Pickup &amp; local delivery, no shipping</div>
+      <div class="trust-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16v16H4z"/><path d="M4 9h16M9 4v16"/></svg> Small batches, every time</div>
+    </div>
+  </div>
+
+  <!-- REVIEWS -->
+  <section id="reviews" style="padding-bottom:0;">
+    <div class="wrap yelp-wrap">
+      <div class="yelp-box">
+        <div class="yelp-head">
+          <span class="yelp-logo">Yelp</span>
+          <span class="yelp-biz">SourPuss Bakery</span>
+          <span class="yelp-sub">Reviews</span>
+        </div>
+        <div class="yelp-review">
+          <div class="yelp-stars">★★★★★</div>
+          <div class="yelp-reviewer">Elizabeth T.</div>
+          <p>OMG, the buttery sandwich bread is SOOOO GOOOD! Toasted in the morning, sandwich for lunch, late night snack - YUM!</p>
+        </div>
+        <div class="yelp-review">
+          <div class="yelp-stars">★★★★★</div>
+          <div class="yelp-reviewer">Elizabeth R.</div>
+          <p>A new startup based in Lee, NH. Bought a loaf of bread yesterday, and 2 days later, it's already half gone.</p>
+        </div>
+        <a class="yelp-add" href="https://m.yelp.com/biz/sourpuss-bakery-lee" target="_blank" rel="noopener">Add a Review →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- MENU -->
+  <section id="menu">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">The lineup</span>
+        <h2>Ten flavors, always on the board</h2>
+        <p>Every bagel starts the same way — naturally leavened, hand-shaped, boiled, then baked to a proper chewy crust. From there, it's a matter of what gets rolled on top.</p>
+      </div>
+      <div class="flavor-grid" id="flavorGrid"></div>
+
+      <div class="specials-board">
+        <div>
+          <span class="eyebrow" style="color:var(--mustard);">On rotation</span>
+          <h3>This week's specials</h3>
+          <p>A rotating cast of limited flavors, baked in small batches alongside the regulars — blueberry included. Ask what's up this week, it changes often.</p>
+          <div class="special-tags" style="margin-top:16px;">
+            <span>Hot Pickle</span><span>Lavender</span><span>Strawberry</span><span>Blueberry</span>
+            <span>Mocha Chip</span><span>Pizza</span><span>Jalapeño</span><span>Bacon &amp; Cheddar</span>
+          </div>
+        </div>
+        <div style="border-radius:6px;overflow:hidden;box-shadow:0 10px 30px rgba(0,0,0,.35);">
+          <img src="images/blueberry-bagels.jpg" alt="Blueberry specialty bagels, glossy and studded with blueberries" style="width:100%;height:260px;object-fit:cover;display:block;">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ORDER BUILDER -->
+  <section id="order" class="order-section">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">Build your dozen</span>
+        <h2>Pick your bagels, pick your day</h2>
+        <p>Every order needs at least two days' notice — that's how long it takes us to mix, shape, and bake it right. Choose your flavors and your pickup or delivery day below, and we'll tell you exactly when it'll be ready.</p>
+      </div>
+
+      <div class="order-grid">
+        <div>
+          <span class="step-label">Step 1 — Choose your flavors</span>
+          <div class="flavor-picker" id="flavorPicker"></div>
+
+          <fieldset>
+            <legend><span class="step-label" style="margin-bottom:4px;">Step 2 — Pickup or delivery</span></legend>
+            <div class="fulfill-options" id="fulfillOptions"></div>
+          </fieldset>
+
+          <span class="step-label">Step 3 — Your info</span>
+          <div class="field">
+            <label for="custName">Name</label>
+            <input type="text" id="custName" placeholder="Your name" autocomplete="name">
+          </div>
+          <div class="field">
+            <label for="custPhone">Phone or email</label>
+            <input type="text" id="custPhone" placeholder="Best way to reach you" autocomplete="tel">
+          </div>
+          <div class="field">
+            <label for="custNote">Anything else? (special flavor request, allergies, etc.)</label>
+            <textarea id="custNote" placeholder="e.g. Can I get the jalapeño special if it's around this week?"></textarea>
+          </div>
+        </div>
+
+        <div class="summary">
+          <h3>Your order ticket</h3>
+          <div class="sub" id="ticketCount">0 bagels selected</div>
+          <ul class="summary-list" id="summaryList">
+            <li class="summary-empty" style="border:none;">Pick a flavor to start your order →</li>
+          </ul>
+          <div class="summary-total"><span>Estimated total</span><span id="summaryTotal">$0.00</span></div>
+          <div class="ready-stamp" id="readyStamp">Choose a pickup or delivery day to see your ready date.</div>
+          <button class="btn btn-primary" id="sendOrderBtn">Pay with Square</button>
+          <button class="btn-ghost-dark btn" id="copyOrderBtn" type="button">Copy order details</button>
+          <small id="orderHelpText">You'll be sent to a secure Square checkout page to pay by card. Your order and ready date are included automatically.</small>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SCHEDULE -->
+  <section id="schedule">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">Where to find your bagels</span>
+        <h2>Pickup &amp; delivery days</h2>
+        <p>No shipping, no storefront — just a standing weekly route. Orders need to be in at least two days ahead of the day you want.</p>
+      </div>
+      <div class="schedule-grid">
+        <div class="sched-card">
+          <div class="day">Tuesday</div>
+          <div class="place">Delivery to Nashua</div>
+          <p>Local delivery around Nashua, every Tuesday.</p>
+        </div>
+        <div class="sched-card">
+          <div class="day">Thursday</div>
+          <div class="place">Pickup in Lee</div>
+          <p>Pickup from our home kitchen in Lee. Exact address is shared once your order's confirmed.</p>
+        </div>
+        <div class="sched-card">
+          <div class="day">Friday, AM</div>
+          <div class="place">Delivery to Somersworth &amp; Dover</div>
+          <p>Morning delivery route through Somersworth and Dover.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="wrap about-grid">
+      <div>
+        <div class="about-badge" style="background:none;box-shadow:none;overflow:hidden;border:6px solid var(--cream);box-shadow:var(--shadow);">
+          <img src="images/plain-bagels.jpg" alt="Fresh plain bagels in a woven basket" style="width:100%;height:100%;object-fit:cover;">
+        </div>
+        <p class="eyebrow" style="justify-content:center;margin-top:16px;display:flex;">Licensed cottage food operation · NH</p>
+      </div>
+      <div>
+        <span class="eyebrow">About SourPuss</span>
+        <h2>Made by hand, in a real kitchen</h2>
+        <p>SourPuss NH Bakery is a licensed cottage food business run by Elizabeth Meeker out of a home kitchen in Lee, New Hampshire. Every bagel is naturally leavened, hand-shaped, boiled, and baked in small batches — no shortcuts, no mixes, just the long way of doing it because it's the way that actually works.</p>
+        <p>We don't have a storefront. We have a weekly route — Nashua on Tuesdays, Lee pickup on Thursdays, Somersworth and Dover Friday mornings — and a list of flavors that ranges from a proper plain bagel to whatever specialty flavor is in the oven that week.</p>
+        <p style="font-family:'Fraunces',serif;font-style:italic;font-weight:600;font-size:1.2rem;color:var(--brick);">Don't take our word for it. Just taste them.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact" style="background:var(--paper-light);border-top:1px solid var(--line);">
+    <div class="wrap contact-grid">
+      <div>
+        <span class="eyebrow">Get in touch</span>
+        <h2>Questions before you order?</h2>
+        <p style="color:var(--ink-soft);max-width:46ch;">Reach out about custom orders, weekly specials, wholesale, or anything else — happy to help.</p>
+      </div>
+      <ul class="contact-list">
+        <li>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 5h18v14H3z"/><path d="M3 6l9 7 9-7"/></svg>
+          <div><span class="clabel">Email</span><a href="mailto:sourpussbakery79@gmail.com">sourpussbakery79@gmail.com</a></div>
+        </li>
+        <li>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.9v3a2 2 0 01-2.2 2 19.8 19.8 0 01-8.6-3 19.5 19.5 0 01-6-6 19.8 19.8 0 01-3-8.7A2 2 0 014.1 2h3a2 2 0 012 1.7c.1.9.3 1.8.6 2.6a2 2 0 01-.4 2.1L8 9.7a16 16 0 006 6l1.3-1.3a2 2 0 012.1-.4c.8.3 1.7.5 2.6.6a2 2 0 011.7 2z"/></svg>
+          <div><span class="clabel">Phone</span><a href="tel:+16032751295">(603) 275-1295</a></div>
+        </li>
+        <li>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 6-9 12-9 12s-9-6-9-12a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          <div><span class="clabel">Based in</span><span>Lee, NH — pickup &amp; delivery route only, no storefront</span></div>
+        </li>
+        <li>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>
+          <div><span class="clabel">Facebook</span><a href="https://www.facebook.com/people/SourPuss-NH-Bakery/61588816023475/" target="_blank" rel="noopener">SourPuss NH Bakery</a></div>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <a class="brand" href="#top" style="display:flex;align-items:center;gap:10px;text-decoration:none;">
+        <svg viewBox="0 0 64 64" class="bagel-icon" style="width:30px;height:30px;color:var(--mustard);"><use href="#bagel"/></svg>
+        <span class="brand-word">SourPuss<span>.</span></span>
+      </a>
+      <nav class="foot-links">
+        <a href="#menu">Menu</a>
+        <a href="#order">Order</a>
+        <a href="#schedule">Pickup &amp; Delivery</a>
+        <a href="#about">About</a>
+        <a href="#contact">Contact</a>
+        <a href="https://www.facebook.com/people/SourPuss-NH-Bakery/61588816023475/" target="_blank" rel="noopener">Facebook</a>
+      </nav>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2026 SourPuss NH Bakery. Licensed cottage food operation, New Hampshire.</span>
+      <span>Just taste them.</span>
+    </div>
+  </div>
+</footer>
+
+<div class="toast" id="toast"></div>
+
+<script>
+(function(){
+  // ---------- Data ----------
+  var FLAVORS = [
+    {id:'plain', name:'Plain', price:2.00, desc:'Glossy crust, chewy inside, deep malt tang.', photo:'images/plain-bagels.jpg'},
+    {id:'sesame', name:'Sesame', price:2.00, desc:'Nutty toasted sesame, top to bottom.'},
+    {id:'poppyseed', name:'Poppyseed', price:2.00, desc:'Dense, chewy, dressed in poppy seed.', photo:'images/poppyseed-bagel.jpg'},
+    {id:'everything', name:'Everything', price:2.00, desc:'Garlic, onion, poppy, sesame, sea salt.', photo:'images/everything-bagels.jpg'},
+    {id:'garlic', name:'Garlic', price:2.00, desc:'Crisped garlic, edge to edge.'},
+    {id:'onion', name:'Onion', price:2.00, desc:'Toasted onion, sweet and savory.'},
+    {id:'cinnamon', name:'Cinnamon', price:2.00, desc:'Warm spice, lightly sweet crust.'},
+    {id:'chocolate', name:'Chocolate', price:2.00, desc:'Cocoa dough, a little decadent.', photo:'images/chocolate-bagels.jpg'},
+    {id:'zaatar', name:"Za'atar", price:2.00, desc:'Herbal, toasty, a little tangy.', photo:'images/zaatar-bagels.jpg'},
+    {id:'asiago', name:'Asiago', price:2.00, desc:'Baked-in sharp, nutty cheese.'}
+  ];
+
+  var FULFILLMENT = [
+    {id:'nashua', title:'Delivery — Nashua', meta:'Tuesdays', weekday:2},
+    {id:'lee', title:'Pickup — Lee, NH', meta:'Thursdays', weekday:4},
+    {id:'dover', title:'Delivery — Somersworth & Dover', meta:'Friday mornings', weekday:5}
+  ];
+
+  var LEAD_DAYS = 2;
+  var state = { qty: {}, fulfillment: null };
+  FLAVORS.forEach(function(f){ state.qty[f.id] = 0; });
+
+  // ---------- Render flavor grid (menu section) ----------
+  var flavorGrid = document.getElementById('flavorGrid');
+  FLAVORS.forEach(function(f, i){
+    var card = document.createElement('div');
+    if(f.photo){
+      card.className = 'flavor-card has-photo';
+      card.innerHTML =
+        '<img class="fphoto" src="' + f.photo + '" alt="' + f.name + ' bagel">' +
+        '<span class="fnum">0' + (i+1) + '</span>' +
+        '<div class="fbody"><h3>' + f.name + '</h3><p>' + f.desc + '</p></div>';
+    } else {
+      card.className = 'flavor-card';
+      card.innerHTML =
+        '<span class="fnum">0' + (i+1) + '</span>' +
+        '<svg class="bagel-icon flavor-dots" viewBox="0 0 64 64" style="color:' + (i % 2 === 0 ? 'var(--brick)' : 'var(--pickle)') + ';opacity:.85;"><use href="#bagel"/></svg>' +
+        '<h3>' + f.name + '</h3>' +
+        '<p>' + f.desc + '</p>';
+    }
+    flavorGrid.appendChild(card);
+  });
+
+  // ---------- Render flavor picker (order builder) ----------
+  var picker = document.getElementById('flavorPicker');
+  FLAVORS.forEach(function(f){
+    var row = document.createElement('div');
+    row.className = 'pick-row';
+    row.innerHTML =
+      '<div><span class="pname">' + f.name + '</span><span class="pprice">$' + f.price.toFixed(2) + ' each</span></div>' +
+      '<div class="qty">' +
+        '<button type="button" data-action="minus" data-id="' + f.id + '" aria-label="Fewer ' + f.name + '">−</button>' +
+        '<output id="qty-' + f.id + '">0</output>' +
+        '<button type="button" data-action="plus" data-id="' + f.id + '" aria-label="More ' + f.name + '">+</button>' +
+      '</div>';
+    picker.appendChild(row);
+  });
+
+  picker.addEventListener('click', function(e){
+    var btn = e.target.closest('button[data-id]');
+    if(!btn) return;
+    var id = btn.getAttribute('data-id');
+    var delta = btn.getAttribute('data-action') === 'plus' ? 1 : -1;
+    state.qty[id] = Math.max(0, state.qty[id] + delta);
+    document.getElementById('qty-' + id).textContent = state.qty[id];
+    renderSummary();
+  });
+
+  // ---------- Render fulfillment options ----------
+  var fulfillWrap = document.getElementById('fulfillOptions');
+  FULFILLMENT.forEach(function(opt, i){
+    var label = document.createElement('label');
+    label.className = 'fulfill-card';
+    label.innerHTML =
+      '<input type="radio" name="fulfillment" value="' + opt.id + '"' + (i===0?'':'') + '>' +
+      '<div><div class="ftitle">' + opt.title + '</div><div class="fmeta">' + opt.meta + '</div></div>';
+    fulfillWrap.appendChild(label);
+  });
+  fulfillWrap.addEventListener('change', function(e){
+    if(e.target.name === 'fulfillment'){
+      state.fulfillment = e.target.value;
+      renderSummary();
+    }
+  });
+
+  // ---------- Ready-by date calc ----------
+  function nextAvailableDate(weekday){
+    var d = new Date();
+    d.setHours(0,0,0,0);
+    d.setDate(d.getDate() + LEAD_DAYS);
+    while(d.getDay() !== weekday){
+      d.setDate(d.getDate() + 1);
+    }
+    return d;
+  }
+  var DATE_FMT = {weekday:'long', month:'long', day:'numeric'};
+
+  // ---------- Summary rendering ----------
+  var summaryList = document.getElementById('summaryList');
+  var summaryTotal = document.getElementById('summaryTotal');
+  var ticketCount = document.getElementById('ticketCount');
+  var readyStamp = document.getElementById('readyStamp');
+
+  function getSelectedItems(){
+    return FLAVORS.filter(function(f){ return state.qty[f.id] > 0; });
+  }
+
+  function renderSummary(){
+    var items = getSelectedItems();
+    var totalCount = items.reduce(function(sum,f){ return sum + state.qty[f.id]; }, 0);
+    var totalPrice = items.reduce(function(sum,f){ return sum + state.qty[f.id]*f.price; }, 0);
+
+    ticketCount.textContent = totalCount + ' bagel' + (totalCount === 1 ? '' : 's') + ' selected';
+
+    if(items.length === 0){
+      summaryList.innerHTML = '<li class="summary-empty" style="border:none;">Pick a flavor to start your order →</li>';
+    } else {
+      summaryList.innerHTML = items.map(function(f){
+        return '<li><span>' + state.qty[f.id] + ' × ' + f.name + '</span><span>$' + (state.qty[f.id]*f.price).toFixed(2) + '</span></li>';
+      }).join('');
+    }
+    summaryTotal.textContent = '$' + totalPrice.toFixed(2);
+
+    if(state.fulfillment){
+      var opt = FULFILLMENT.filter(function(o){ return o.id === state.fulfillment; })[0];
+      var readyDate = nextAvailableDate(opt.weekday);
+      readyStamp.innerHTML = '<b>Ready ' + readyDate.toLocaleDateString('en-US', DATE_FMT) + '</b><br>' + opt.title + ' · orders need ' + LEAD_DAYS + ' days notice';
+    } else {
+      readyStamp.textContent = 'Choose a pickup or delivery day to see your ready date.';
+    }
+  }
+  renderSummary();
+
+  // ---------- Build order text ----------
+  function buildOrderText(){
+    var items = getSelectedItems();
+    var name = document.getElementById('custName').value.trim();
+    var contact = document.getElementById('custPhone').value.trim();
+    var note = document.getElementById('custNote').value.trim();
+    var lines = [];
+    lines.push('New bagel order request — SourPuss NH Bakery');
+    lines.push('');
+    lines.push('Name: ' + (name || '(not provided)'));
+    lines.push('Contact: ' + (contact || '(not provided)'));
+    lines.push('');
+    lines.push('Order:');
+    if(items.length === 0){
+      lines.push('  (no flavors selected yet)');
+    } else {
+      items.forEach(function(f){
+        lines.push('  ' + state.qty[f.id] + ' × ' + f.name + ' — $' + (state.qty[f.id]*f.price).toFixed(2));
+      });
+    }
+    var totalPrice = items.reduce(function(sum,f){ return sum + state.qty[f.id]*f.price; }, 0);
+    lines.push('  Estimated total: $' + totalPrice.toFixed(2));
+    lines.push('');
+    if(state.fulfillment){
+      var opt = FULFILLMENT.filter(function(o){ return o.id === state.fulfillment; })[0];
+      var readyDate = nextAvailableDate(opt.weekday);
+      lines.push('Fulfillment: ' + opt.title + ' (' + opt.meta + ')');
+      lines.push('Requested ready date: ' + readyDate.toLocaleDateString('en-US', DATE_FMT));
+    } else {
+      lines.push('Fulfillment: (not selected yet)');
+    }
+    if(note){
+      lines.push('');
+      lines.push('Note from customer: ' + note);
+    }
+    return lines.join('\n');
+  }
+
+  function showToast(msg){
+    var t = document.getElementById('toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    setTimeout(function(){ t.classList.remove('show'); }, 2600);
+  }
+
+  // Square checkout endpoint — see /api/create-checkout.js
+  var CHECKOUT_ENDPOINT = '/api/create-checkout';
+
+  document.getElementById('sendOrderBtn').addEventListener('click', function(){
+    var items = getSelectedItems();
+    if(items.length === 0){
+      showToast('Pick at least one flavor first.');
+      return;
+    }
+    if(!state.fulfillment){
+      showToast('Choose a pickup or delivery day first.');
+      return;
+    }
+    var opt = FULFILLMENT.filter(function(o){ return o.id === state.fulfillment; })[0];
+    var readyDate = nextAvailableDate(opt.weekday);
+    var payload = {
+      items: items.map(function(f){ return { name: f.name, quantity: state.qty[f.id], price: f.price }; }),
+      fulfillment: opt.title,
+      readyDate: readyDate.toLocaleDateString('en-US', DATE_FMT),
+      name: document.getElementById('custName').value.trim(),
+      contact: document.getElementById('custPhone').value.trim(),
+      note: document.getElementById('custNote').value.trim()
+    };
+
+    var btn = document.getElementById('sendOrderBtn');
+    var originalText = btn.textContent;
+    btn.textContent = 'Sending to Square…';
+    btn.disabled = true;
+
+    fetch(CHECKOUT_ENDPOINT, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    })
+      .then(function(res){
+        if(!res.ok) throw new Error('checkout-failed');
+        return res.json();
+      })
+      .then(function(data){
+        if(data && data.url){
+          window.location.href = data.url;
+        } else {
+          throw new Error('no-url');
+        }
+      })
+      .catch(function(){
+        btn.textContent = originalText;
+        btn.disabled = false;
+        showToast('Checkout isn\'t connected yet — use "Copy order details" and email it for now.');
+      });
+  });
+
+  document.getElementById('copyOrderBtn').addEventListener('click', function(){
+    var text = buildOrderText();
+    if(navigator.clipboard){
+      navigator.clipboard.writeText(text).then(function(){
+        showToast('Order details copied.');
+      }, function(){
+        showToast('Could not copy — please select and copy manually.');
+      });
+    } else {
+      showToast('Copy not supported in this browser.');
+    }
+  });
+
+  // ---------- Mobile nav ----------
+  var toggle = document.getElementById('menuToggle');
+  var mobileNav = document.getElementById('mobileNav');
+  toggle.addEventListener('click', function(){
+    var isOpen = mobileNav.style.display === 'flex';
+    mobileNav.style.display = isOpen ? 'none' : 'flex';
+  });
+  mobileNav.querySelectorAll('a').forEach(function(a){
+    a.addEventListener('click', function(){ mobileNav.style.display = 'none'; });
+  });
+})();
+</script>
+
+</body>
+</html>

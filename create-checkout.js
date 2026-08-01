@@ -1,6 +1,6 @@
-// netlify/functions/create-checkout.js
+// api/create-checkout.js
 //
-// This runs on Netlify's servers, not in the customer's browser — that's required,
+// This runs on Vercel's servers, not in the customer's browser — that's required,
 // because it uses a secret Square Access Token that must never be exposed in
 // client-side code. The website's order builder POSTs the customer's selections
 // here; this function turns them into a real Square Order and asks Square for a
@@ -8,30 +8,33 @@
 // the customer to it to pay.
 //
 // SETUP — see README.md in the project root for the full walkthrough. In short:
-//   1. In the Netlify site dashboard: Site configuration > Environment variables, add:
+//   1. In the Vercel project dashboard: Settings > Environment Variables, add:
 //        SQUARE_ACCESS_TOKEN   - from the Square Developer Dashboard
 //        SQUARE_LOCATION_ID    - from the same place
 //        SQUARE_ENV            - "sandbox" while testing, "production" when live
 //        SITE_URL              - e.g. https://sourpussnhbakery.com (used for the
 //                                 receipt redirect link)
-//   2. Deploy. Netlify will automatically pick up any file in netlify/functions/
-//      as an endpoint at /.netlify/functions/<filename>.
+//   2. Redeploy. Vercel automatically turns any file in /api into an endpoint —
+//      this one is available at /api/create-checkout with no extra config.
 
-exports.handler = async function (event) {
-  if (event.httpMethod !== 'POST') {
-    return { statusCode: 405, body: 'Method not allowed' };
+module.exports = async (req, res) => {
+  if (req.method !== 'POST') {
+    res.status(405).send('Method not allowed');
+    return;
   }
 
-  let order;
-  try {
-    order = JSON.parse(event.body);
-  } catch (err) {
-    return { statusCode: 400, body: 'Invalid request body' };
+  let order = req.body;
+  if (typeof order === 'string') {
+    try { order = JSON.parse(order); } catch (err) {
+      res.status(400).send('Invalid request body');
+      return;
+    }
   }
 
-  const items = Array.isArray(order.items) ? order.items : [];
+  const items = Array.isArray(order && order.items) ? order.items : [];
   if (items.length === 0) {
-    return { statusCode: 400, body: 'No items in order' };
+    res.status(400).send('No items in order');
+    return;
   }
 
   const ACCESS_TOKEN = process.env.SQUARE_ACCESS_TOKEN;
@@ -43,10 +46,8 @@ exports.handler = async function (event) {
     : 'https://connect.squareupsandbox.com';
 
   if (!ACCESS_TOKEN || !LOCATION_ID) {
-    return {
-      statusCode: 500,
-      body: 'Square is not configured yet — missing SQUARE_ACCESS_TOKEN or SQUARE_LOCATION_ID.'
-    };
+    res.status(500).send('Square is not configured yet — missing SQUARE_ACCESS_TOKEN or SQUARE_LOCATION_ID.');
+    return;
   }
 
   // Build Square order line items. Square wants prices in the smallest currency
@@ -68,7 +69,7 @@ exports.handler = async function (event) {
   if (order.note) noteParts.push('Note: ' + order.note);
 
   const body = {
-    idempotency_key: cryptoRandomId(),
+    idempotency_key: randomId(),
     order: {
       location_id: LOCATION_ID,
       line_items: lineItems,
@@ -87,7 +88,7 @@ exports.handler = async function (event) {
   };
 
   try {
-    const res = await fetch(BASE_URL + '/v2/online-checkout/payment-links', {
+    const squareRes = await fetch(BASE_URL + '/v2/online-checkout/payment-links', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -97,25 +98,22 @@ exports.handler = async function (event) {
       body: JSON.stringify(body)
     });
 
-    const data = await res.json();
+    const data = await squareRes.json();
 
-    if (!res.ok) {
+    if (!squareRes.ok) {
       console.error('Square API error:', data);
-      return { statusCode: 502, body: 'Square could not create the checkout page.' };
+      res.status(502).send('Square could not create the checkout page.');
+      return;
     }
 
-    return {
-      statusCode: 200,
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ url: data.payment_link.url })
-    };
+    res.status(200).json({ url: data.payment_link.url });
   } catch (err) {
     console.error('Checkout function error:', err);
-    return { statusCode: 500, body: 'Something went wrong creating checkout.' };
+    res.status(500).send('Something went wrong creating checkout.');
   }
 };
 
-function cryptoRandomId() {
+function randomId() {
   // Square requires a unique idempotency key per request.
   return 'sp-' + Date.now() + '-' + Math.random().toString(36).slice(2, 10);
 }
