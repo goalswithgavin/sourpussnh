@@ -338,6 +338,14 @@
   .foot-links a{text-decoration:none;color:rgba(251,246,234,.75);}
   .foot-links a:hover{color:var(--mustard);}
   .foot-bottom{border-top:1px solid rgba(251,246,234,.15);padding-top:20px;font-family:'Space Mono',monospace;font-size:.72rem;display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;}
+  .credit-row{margin-top:14px;text-align:center;}
+  .credit-link{
+    display:inline-flex;align-items:center;gap:8px;
+    font-family:'Space Mono',monospace;font-size:.72rem;letter-spacing:.04em;
+    color:rgba(251,246,234,.45);text-decoration:none;
+  }
+  .credit-link:hover{color:var(--mustard);}
+  .credit-logo{height:18px;width:18px;flex:none;opacity:.85;}
 
   .toast{
     position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(20px);
@@ -691,6 +699,11 @@
     <div class="foot-bottom">
       <span>© 2026 SourPuss NH Bakery. Licensed cottage food operation, New Hampshire.</span>
       <span>Just taste them.</span>
+    </div>
+    <div class="credit-row">
+      <a href="https://goalswithgavin.vercel.app" target="_blank" rel="noopener" class="credit-link">
+        Website by Gavin Reeder
+      </a>
     </div>
   </div>
 </footer>
