@@ -62,7 +62,50 @@ Vercel — no database, no traditional server to manage.
 in Vercel's environment variables, never pasted into `index.html` or
 committed to the GitHub repo.
 
-## 4. Keeping it updated
+## 4. Set up the newsletter with Constant Contact (Elizabeth, with Gavin if she wants help)
+
+The site has a "Get the specials before they sell out" sign-up box (search
+`newsletter` in `index.html`). Right now it's a placeholder — the inputs
+are disabled and it says "Not connected yet" underneath. To make it real:
+
+1. **Elizabeth creates a Constant Contact account** at constantcontact.com,
+   using her own email — the account needs to be hers so the email list,
+   and everyone who signs up, belongs to her business, not you.
+2. Inside Constant Contact, go to **Contacts** and make (or use the
+   default) list she wants sign-ups to land in — e.g. "SourPuss
+   Newsletter."
+3. Go to **Website > Sign-Up Forms** (sometimes listed under "Grow Your
+   List" or "Landing Pages & Sign-Up Forms," Constant Contact renames
+   these sections occasionally). Create a new **Sign-Up Form**, choose the
+   **Embedded** style (not pop-up, not anchor — embedded is the one meant
+   to sit inside an existing page like this one), connect it to the list
+   from step 2, and keep the fields simple (just email, to match the
+   site's design — extra fields can always be added later).
+4. Constant Contact will give you an **embed code** — a snippet of HTML
+   and `<script>` tags. Copy the whole thing.
+5. Open `index.html`, search for `id="ctct-signup-form"`, and replace
+   everything between that opening `<div id="ctct-signup-form">` tag and
+   its closing `</div>` with the snippet you copied. Delete the
+   placeholder `<form>` and `<small>` that were there as a stand-in.
+6. Push to GitHub. Vercel redeploys automatically, and the box on the
+   live site becomes Constant Contact's real form — submissions go
+   straight into Elizabeth's Constant Contact account, into the list you
+   picked in step 2. Nothing else on the site needs to change; this piece
+   doesn't need Vercel environment variables like Square does, because
+   Constant Contact's embedded form talks directly to Constant Contact
+   from the visitor's browser.
+7. Test it yourself with a real email address once it's live, and confirm
+   the contact shows up in Constant Contact under the right list.
+
+One note on styling: Constant Contact's embedded form comes with its own
+default look, which won't automatically match the site's fonts and
+colors. Constant Contact's form editor lets you customize colors and
+fonts for the embed — worth spending a few minutes there so it doesn't
+look like a foreign box dropped into the page. If it still looks
+mismatched after that, send me a screenshot and I can help tighten the
+CSS around it.
+
+## 5. Keeping it updated
 
 - **Prices / flavors:** open `index.html`, search for `var FLAVORS`, and
   edit the `price` values or add/remove flavors there. Everything else
@@ -76,7 +119,7 @@ committed to the GitHub repo.
   filename in the `FLAVORS` list (the `photo` field) or wherever else in
   the HTML. Push to GitHub and Vercel redeploys automatically.
 
-## 5. Optional upgrade: scheduled pickup/delivery in Square
+## 6. Optional upgrade: scheduled pickup/delivery in Square
 
 Right now the fulfillment day, ready date, and customer's contact info are
 attached to the order as a note, so Elizabeth sees them in the Square

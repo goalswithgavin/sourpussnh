@@ -344,7 +344,25 @@
   }
   .toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
 
-  /* ---------- Yelp reviews box ---------- */
+  /* ---------- Newsletter ---------- */
+  .newsletter-box{
+    background:var(--ink);color:var(--paper-light);
+    border-radius:8px;padding:44px 40px;
+    display:grid;grid-template-columns:1.1fr 1fr;gap:36px;align-items:center;
+    border-top:5px solid var(--mustard);
+  }
+  @media(max-width:820px){ .newsletter-box{grid-template-columns:1fr;padding:34px 26px;} }
+  .newsletter-box h2{color:var(--paper-light);font-size:2rem;}
+  .newsletter-box p{color:rgba(251,246,234,.75);margin:0;}
+  #ctct-signup-form{width:100%;}
+  .newsletter-form-placeholder{display:flex;gap:10px;flex-wrap:wrap;}
+  .newsletter-form-placeholder input{
+    flex:1 1 200px;font-family:'Karla',sans-serif;font-size:.95rem;
+    padding:13px 14px;border-radius:3px;border:1.5px solid rgba(251,246,234,.3);
+    background:rgba(251,246,234,.08);color:var(--paper-light);
+  }
+  .newsletter-form-placeholder input::placeholder{color:rgba(251,246,234,.5);}
+  #ctct-signup-form small{display:block;margin-top:10px;color:rgba(251,246,234,.45);font-family:'Space Mono',monospace;font-size:.7rem;}
   .yelp-wrap{display:flex;justify-content:center;}
   .yelp-box{
     background:var(--cream);
@@ -412,9 +430,10 @@
     <div class="wrap hero-grid">
       <div>
         <span class="eyebrow">Licensed home bakery · Lee, NH</span>
+        <span class="eyebrow" style="margin-left:10px;color:var(--pickle);">New York–style sourdough</span>
         <h1>Serving our community,<br>one <em>fresh bagel</em> at a time.</h1>
         <p class="taste-line">"Just taste them."</p>
-        <p class="lede">What started as a passion for baking in our home kitchen has grown into a weekly bagel route across Nashua, Lee, Somersworth, and Dover. Every batch is hand-rolled, kettle-boiled, and baked with the same quality and care we'd want for our own family — pick your flavors, pick your day, and we'll have a fresh dozen ready for you.</p>
+        <p class="lede">What started as a passion for baking in our home kitchen has grown into a weekly bagel route across Nashua, Lee, Somersworth, and Dover. Every batch is a real New York–style sourdough bagel — hand-rolled, kettle-boiled, and baked with the same quality and care we'd want for our own family — pick your flavors, pick your day, and we'll have a fresh dozen ready for you.</p>
         <div class="hero-cta-row">
           <a href="#order" class="btn btn-primary">Build Your Dozen</a>
           <a href="#menu" class="btn btn-ghost">See the flavors</a>
@@ -482,7 +501,7 @@
       <div class="section-head">
         <span class="eyebrow">The lineup</span>
         <h2>Ten flavors, always on the board</h2>
-        <p>Every bagel starts the same way — naturally leavened, hand-shaped, boiled, then baked to a proper chewy crust. From there, it's a matter of what gets rolled on top.</p>
+        <p>Every bagel starts the same way — a real New York–style sourdough: naturally leavened, hand-shaped, boiled, then baked to a proper chewy crust. From there, it's a matter of what gets rolled on top.</p>
       </div>
       <div class="flavor-grid" id="flavorGrid"></div>
 
@@ -593,9 +612,36 @@
       <div>
         <span class="eyebrow">About SourPuss</span>
         <h2>Made by hand, in a real kitchen</h2>
-        <p>SourPuss NH Bakery is a licensed cottage food business run by Elizabeth Meeker out of a home kitchen in Lee, New Hampshire. Every bagel is naturally leavened, hand-shaped, boiled, and baked in small batches — no shortcuts, no mixes, just the long way of doing it because it's the way that actually works.</p>
+        <p>SourPuss NH Bakery is a licensed cottage food business run by Elizabeth Meeker out of a home kitchen in Lee, New Hampshire. Every bagel is a real New York–style sourdough — naturally leavened, hand-shaped, boiled, and baked in small batches — no shortcuts, no mixes, just the long way of doing it because it's the way that actually works.</p>
         <p>We don't have a storefront. We have a weekly route — Nashua on Tuesdays, Lee pickup on Thursdays, Somersworth and Dover Friday mornings — and a list of flavors that ranges from a proper plain bagel to whatever specialty flavor is in the oven that week.</p>
         <p style="font-family:'Fraunces',serif;font-style:italic;font-weight:600;font-size:1.2rem;color:var(--brick);">Don't take our word for it. Just taste them.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- NEWSLETTER -->
+  <section id="newsletter">
+    <div class="wrap">
+      <div class="newsletter-box">
+        <div>
+          <span class="eyebrow" style="color:var(--mustard);">Stay in the loop</span>
+          <h2>Get the specials before they sell out</h2>
+          <p>A short email whenever a new flavor drops or the route changes — nothing else, no spam.</p>
+        </div>
+        <!--
+          CONSTANT CONTACT SIGN-UP FORM
+          Replace everything inside #ctct-signup-form below with the embed
+          snippet Constant Contact gives you (Website > Sign-Up Form >
+          Embedded Form). See README.md, "Newsletter setup," for the exact
+          steps to generate that snippet and connect it to Elizabeth's list.
+        -->
+        <div id="ctct-signup-form">
+          <form class="newsletter-form-placeholder" onsubmit="return false;">
+            <input type="email" placeholder="you@email.com" aria-label="Email address" disabled>
+            <button type="submit" class="btn btn-primary" disabled>Sign Up</button>
+          </form>
+          <small>Not connected yet — see README.md "Newsletter setup."</small>
+        </div>
       </div>
     </div>
   </section>
@@ -642,6 +688,7 @@
         <a href="#order">Order</a>
         <a href="#schedule">Pickup &amp; Delivery</a>
         <a href="#about">About</a>
+        <a href="#newsletter">Newsletter</a>
         <a href="#contact">Contact</a>
         <a href="https://www.facebook.com/people/SourPuss-NH-Bakery/61588816023475/" target="_blank" rel="noopener">Facebook</a>
       </nav>
